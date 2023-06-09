@@ -167,8 +167,7 @@ class WebViewScreenState extends State<WebViewScreen> {
       ? InAppWebView(
           key: _webViewKey,
           initialUrlRequest: URLRequest(
-              url: Uri.parse(
-                  '${widget.address}/${link.href.removePrefix("/")}')),
+              url: WebUri('${widget.address}/${link.href.removePrefix("/")}')),
           initialOptions: InAppWebViewGroupOptions(
             android: AndroidInAppWebViewOptions(
               useHybridComposition: true,

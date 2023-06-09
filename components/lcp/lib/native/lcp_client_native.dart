@@ -8,6 +8,7 @@ import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 import 'package:fimber/fimber.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mno_lcp/lcp.dart';
 import 'package:universal_io/io.dart';
 
@@ -39,6 +40,10 @@ class LcpClientNative extends LcpClient {
   bool get isAvailable => _isInitialized;
 
   static void loadDynamicLib() {
+    if (kIsWeb) {
+      return;
+    }
+
     if (Platform.isAndroid) {
       DynamicLibrary.open('libc++_shared.so');
       Fimber.d("<<<<<<<<<<<<<<<<<<<< DYNAMIC LIBRARY libc++_shared LOADED");

@@ -66,15 +66,12 @@ class EpubNavigatorState extends PublicationNavigatorState<EpubNavigator> {
         physics: const AlwaysScrollableScrollPhysics(),
         reverse: readerContext?.readingProgression?.isReverseOrder() ?? false,
         itemCount: spine.length,
-        itemBuilder: (context, position) =>
-            (Platform.isAndroid || Platform.isIOS)
-                ? WebViewScreen(
-                    address: serverState.address,
-                    link: spine[position],
-                    position: position,
-                    readerContext: readerContext!,
-                    publicationController: epubController,
-                  )
-                : const SizedBox.shrink(),
+        itemBuilder: (context, position) => WebViewScreen(
+          address: serverState.address,
+          link: spine[position],
+          position: position,
+          readerContext: readerContext!,
+          publicationController: epubController,
+        ),
       );
 }

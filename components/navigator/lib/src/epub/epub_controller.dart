@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:dartx/dartx.dart';
 import 'package:fimber/fimber.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mno_navigator/epub.dart';
 import 'package:mno_navigator/publication.dart';
@@ -58,7 +59,7 @@ class EpubController extends PublicationController {
       // to < 1.0, in order to get the WebViews to render! Otherwise they do load the data but don't render...
       keepPage: true,
       initialPage: initialPage,
-      viewportFraction: Platform.isAndroid ? 0.99 : 1);
+      viewportFraction: !kIsWeb && Platform.isAndroid ? 0.99 : 1);
 
   @override
   void onSkipLeft({bool animated = true}) {

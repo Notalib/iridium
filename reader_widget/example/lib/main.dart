@@ -13,8 +13,8 @@ Future<void> main() async {
   } else {
     Fimber.plantTree(DebugBufferTree());
   }
-  if (kDebugMode && Platform.isAndroid) {
-    await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
+  if (kDebugMode && !kIsWeb && Platform.isAndroid) {
+    await InAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
   var fileName = "assets/books/accessible_epub_3.epub";
   // var fileName = "assets/books/39419251_rtl.epub";

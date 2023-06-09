@@ -29,8 +29,8 @@ void main() async {
     Fimber.plantTree(DebugBufferTree());
   }
 
-  if (kDebugMode && Platform.isAndroid) {
-    await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
+  if (kDebugMode && !kIsWeb && Platform.isAndroid) {
+    await InAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 
   LcpNative.initLcpNative();

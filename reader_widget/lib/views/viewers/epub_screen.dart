@@ -91,7 +91,9 @@ class EpubScreen extends BookScreen {
       String? theme}) {
     Map<String, dynamic>? decodedTheme;
     try {
-      decodedTheme = json.decode(theme!);
+      if (theme != null) {
+        decodedTheme = json.decode(theme);
+      }
     } catch (e) {
       debugPrint('failure to decode theme: $e');
     }
