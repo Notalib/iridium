@@ -168,29 +168,23 @@ class WebViewScreenState extends State<WebViewScreen> {
           key: _webViewKey,
           initialUrlRequest: URLRequest(
               url: WebUri('${widget.address}/${link.href.removePrefix("/")}')),
-          initialOptions: InAppWebViewGroupOptions(
-            android: AndroidInAppWebViewOptions(
-              useHybridComposition: true,
-              useShouldInterceptRequest: true,
-              safeBrowsingEnabled: false,
-              cacheMode: AndroidCacheMode.LOAD_NO_CACHE,
-              disabledActionModeMenuItems:
-                  AndroidActionModeMenuItem.MENU_ITEM_SHARE |
-                      AndroidActionModeMenuItem.MENU_ITEM_WEB_SEARCH |
-                      AndroidActionModeMenuItem.MENU_ITEM_PROCESS_TEXT,
-            ),
-            crossPlatform: InAppWebViewOptions(
+          initialSettings: InAppWebViewSettings(
               useShouldOverrideUrlLoading: true,
               verticalScrollBarEnabled: false,
               horizontalScrollBarEnabled: false,
-            ),
-          ),
+              useHybridComposition: true,
+              useShouldInterceptRequest: true,
+              safeBrowsingEnabled: false,
+              cacheMode: CacheMode.LOAD_NO_CACHE,
+              disabledActionModeMenuItems: ActionModeMenuItem.MENU_ITEM_SHARE |
+                  ActionModeMenuItem.MENU_ITEM_WEB_SEARCH |
+                  ActionModeMenuItem.MENU_ITEM_PROCESS_TEXT),
           onConsoleMessage: (InAppWebViewController controller,
               ConsoleMessage consoleMessage) {
             Fimber.d(
                 "WebView[${consoleMessage.messageLevel}]: ${consoleMessage.message}");
           },
-          androidShouldInterceptRequest: (InAppWebViewController controller,
+          shouldInterceptRequest: (InAppWebViewController controller,
               WebResourceRequest request) async {
             if (!_serverBloc.startHttpServer &&
                 request.url.toString().startsWith(_serverBloc.address)) {
@@ -198,6 +192,8 @@ class WebViewScreenState extends State<WebViewScreen> {
                   .onRequest(AndroidRequest(request))
                   .then((androidResponse) => androidResponse.response);
             }
+
+            return null;
           },
           shouldOverrideUrlLoading: (controller, navigationAction) async =>
               NavigationActionPolicy.ALLOW,
@@ -209,8 +205,8 @@ class WebViewScreenState extends State<WebViewScreen> {
                 () => LongPressGestureRecognizer()),
           },
           contextMenu: ContextMenu(
-            options:
-                ContextMenuOptions(hideDefaultSystemContextMenuItems: true),
+            settings:
+                ContextMenuSettings(hideDefaultSystemContextMenuItems: true),
             onCreateContextMenu: (hitTestResult) async {
               _jsApi?.let((jsApi) async {
                 Selection? selection =
